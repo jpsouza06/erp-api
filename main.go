@@ -29,24 +29,22 @@ func (self *apiContext) getAlbums(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, albums)
 }
 
-func (self *apiContext) postAlbums(c *gin)
+func (self *apiContext) postAlbums(c *gin.Context) {
+	var newAlbum album
 
-// func postAlbums(db *gorm.DB) func(*gin.Context) error {
-// 	return func(c *gin.Context) error {
-// 		var newAlbum album
-// 		if err := c.BindJSON(&newAlbum); err != nil {
-// 			return err
-// 		}
-// 		newAlbum := {
-// 			ID:     newUUID,
-// 			Title:  newAlbum.Title,
-// 			Artist: newAlbum.Artist,
-// 			Price:  newAlbum.Price,
-// 		}
-// 		db.Create(*album{})
-// 	}
+	if err := c.BindJSON(&newAlbum); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
+		return
+	}
 
-// }
+	result := self.db.Create(&newAlbum)
+
+	if result.Error != nil {
+		c.AbortWithError(http.StatusInternalServerError, result.Error)
+		return
+	}
+	c.IndentedJSON(http.StatusOK, newAlbum)
+}
 
 // func Find(id string) *album {
 // 	for _, n := range albums {
@@ -62,9 +60,9 @@ func handleRequest(db *gorm.DB) {
 		db,
 	}
 	router := gin.Default()
-	router.GET("/albums", ctx.getAlbums)
+	router.GET("/albuns", ctx.getAlbums)
 	// router.GET("/albums/:id", getAlbumsById)
-	// router.POST("/albums", postAlbums)
+	router.POST("/albuns", ctx.postAlbums)
 
 	router.Run("localhost:8080")
 }
