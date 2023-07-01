@@ -56,7 +56,7 @@ func (ctx *apiContext) postAlbum(c *gin.Context) {
 		c.AbortWithError(http.StatusInternalServerError, result.Error)
 		return
 	}
-	c.IndentedJSON(http.StatusOK, newAlbum)
+	c.IndentedJSON(http.StatusCreated, newAlbum)
 }
 
 func (ctx *apiContext) deleteAlbum(c *gin.Context) {
