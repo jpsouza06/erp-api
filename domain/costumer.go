@@ -1,10 +1,10 @@
 package domain
 
 import (
+	"erp/api/entity"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jpsouza06/erp-api/entity"
 	"gorm.io/gorm"
 )
 
@@ -18,12 +18,12 @@ type apiContext struct {
 
 func (ctx *apiContext) getCostumer(c *gin.Context) {
 	var costumer []Costumer
-	result := ctx.db.Find(&albums)
+	result := ctx.db.Find(&costumer)
 	if result.Error != nil {
-		c.AbortWithError(http.StatusInternalServerError, result.Error)
+		c.AbortWithError(http.StatusNotFound, result.Error)
 		return
 	}
-	c.IndentedJSON(http.StatusOK, albums)
+	c.IndentedJSON(http.StatusOK, costumer)
 }
 
 func handleRequest(db *gorm.DB) {
@@ -32,11 +32,11 @@ func handleRequest(db *gorm.DB) {
 	}
 
 	router := gin.Default()
-	router.GET("/albuns", ctx.getAlbuns)
-	// router.GET("/albuns/:id", ctx.getAlbumById)
-	// router.POST("/albuns", ctx.postAlbum)
-	// router.DELETE("/albuns/:id", ctx.deleteAlbum)
-	// router.PUT("/albuns/:id", ctx.updateAlbum)
+	router.GET("/costumer", ctx.getCostumer)
+	// router.GET("/costumer/:id", ctx.getAlbumById)
+	// router.POST("/costumer", ctx.postAlbum)
+	// router.DELETE("/costumer/:id", ctx.deleteAlbum)
+	// router.PUT("/costumer/:id", ctx.updateAlbum)
 
 	router.Run("localhost:9000")
 }
