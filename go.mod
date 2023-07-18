@@ -1,4 +1,4 @@
-module example/web-service
+module erp/api
 
 go 1.18
 
