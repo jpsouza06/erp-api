@@ -1,4 +1,4 @@
-package costumer
+package product
 
 import (
 	"erp/api/entity"
